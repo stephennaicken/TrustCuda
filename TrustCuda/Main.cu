@@ -21,12 +21,12 @@ int main(void)
 
 	SimpleEigentrustGPU eigentrust(peers, error);
 	Peer::generateInteractions(eigentrust.getPeers(), num_transactions);
-	
+
 	thrust::host_vector<double> C(pow(m, 2));
 	eigentrust.computeMatrix(C.begin(), C.end(), peers.begin(), peers.end());
 
 	thrust::device_vector<double> d_C = C;
-	thrust::device_vector<double> d_e(m, (double)1/(double)m);
+	thrust::device_vector<double> d_e(m, (double)1 / (double)m);
 	thrust::device_vector<double> d_y(m);
 	eigentrust.computeEigentrust(thrust::raw_pointer_cast(&d_C[0]), thrust::raw_pointer_cast(&d_e[0]), thrust::raw_pointer_cast(&d_y[0]));
 

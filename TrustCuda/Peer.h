@@ -22,7 +22,7 @@ public:
 	Peer() : id(id_count++), transactions(), trust_value(0){}
 	~Peer(){};
 	void interact(Peer & j, bool init);
-	const std::map<Peer*, signed int> & getTransactions() const 
+	const std::map<Peer*, signed int> & getTransactions() const
 	{
 		return transactions;
 	}
