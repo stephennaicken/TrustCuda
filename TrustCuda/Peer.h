@@ -8,10 +8,11 @@ class Peer
 private:
 	static const signed int positive_transaction;
 	static const signed int negative_transaction;
-	static const double mean;
-	static const double std_dev;
 
 	static unsigned int id_count;
+
+	static const double mean;
+	static const double std_dev;
 	static std::default_random_engine rnd_engine;
 	static std::normal_distribution<> distribution;
 

@@ -15,7 +15,7 @@ bool SimpleEigentrustGPU::hasConverged(double * trust_vec_next, double * trust_v
 	thrust::device_ptr<double> trust_vec_orig_ptr = thrust::device_pointer_cast(trust_vec_orig);
 	thrust::transform(trust_vec_next_ptr, trust_vec_next_ptr + m, trust_vec_orig_ptr, d_v.begin(), thrust::minus<double>());
 	double norm = std::sqrt(thrust::transform_reduce(d_v.begin(), d_v.end(), unary_op, init, binary_op));
-	return norm < Eigentrust::getError() ? true : false;
+	return norm < getError() ? true : false;
 }
 
 void SimpleEigentrustGPU::computeEigentrust(double * C, double * e, double * y)
@@ -40,8 +40,8 @@ void SimpleEigentrustGPU::setTrustValues(double * dev_trust_vector)
 	thrust::device_ptr<double> dev_trust_vec_ptr = thrust::device_pointer_cast(dev_trust_vector);
 	thrust::device_vector<double> d_trust_vector(dev_trust_vec_ptr, dev_trust_vec_ptr + getPeers().size());
 	thrust::host_vector<double> host_trust_vector = d_trust_vector;
-	for (int i = 0; i < getPeers().size(); i++)
+	for (auto i = getPeers().begin(); i != getPeers().end(); i++)
 	{
-		getPeers().at(i).setTrustValue(*(host_trust_vector.begin() + i));
+		i->setTrustValue(*(host_trust_vector.begin() + i->getId()));
 	}
 }

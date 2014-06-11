@@ -28,12 +28,9 @@ void Peer::interact(Peer & j, bool init){
 void Peer::generateInteractions(std::vector<Peer>& peers, const unsigned int num_transactions)
 {
 	srand(time(nullptr));
-	std::size_t num_peers = peers.size();
 	for (int i = 0; i < num_transactions; i++)
 	{
-		size_t a = rand() % num_peers;
-		size_t b = rand() % num_peers;
-		peers.at(a).interact(peers.at(b), true);
+		peers.at(rand() % peers.size()).interact(peers.at(rand() % peers.size()), true);
 	}
 }
 

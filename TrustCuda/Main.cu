@@ -26,7 +26,7 @@ int main(void)
 	eigentrust.computeMatrix(C.begin(), C.end(), peers.begin(), peers.end());
 
 	thrust::device_vector<double> d_C = C;
-	thrust::device_vector<double> d_e(m, (double)1 / (double)m);
+	thrust::device_vector<double> d_e(m, 1 / static_cast<double>(m));
 	thrust::device_vector<double> d_y(m);
 	eigentrust.computeEigentrust(thrust::raw_pointer_cast(&d_C[0]), thrust::raw_pointer_cast(&d_e[0]), thrust::raw_pointer_cast(&d_y[0]));
 
@@ -35,7 +35,7 @@ int main(void)
 	std::cout << "Peer ID:\t Trust Value" << std::endl;
 	for (auto i = peers.begin(); i != peers.end(); i++)
 	{
-		std::cout << ((Peer)*i).getId() << ":\t" << ((Peer)*i).getTrustValue() << std::endl;
+		std::cout << i->getId() << ":\t" << i->getTrustValue() << std::endl;
 	}
 	std::cin.get();
 

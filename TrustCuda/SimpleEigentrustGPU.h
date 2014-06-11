@@ -17,7 +17,7 @@ class SimpleEigentrustGPU final :
 private:
 	void setTrustValues(double *);
 protected:
-	bool hasConverged(double * trust_vec_next, double * trust_vec_orig) override;
+	bool hasConverged(double * trust_vec_next,  double * trust_vec_orig) override;
 public:
 	SimpleEigentrustGPU(std::vector<Peer>& peers, double error) : Eigentrust(peers, error){}
 	~SimpleEigentrustGPU(){};
