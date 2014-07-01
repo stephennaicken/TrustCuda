@@ -3,6 +3,7 @@
 
 const signed int Peer::positive_transaction = 1;
 const signed int Peer::negative_transaction = -1;
+
 const double Peer::mean = 0;
 const double Peer::std_dev = 1;
 std::default_random_engine Peer::rnd_engine = std::default_random_engine();
@@ -32,19 +33,4 @@ void Peer::generateInteractions(std::vector<Peer>& peers, const unsigned int num
 	{
 		peers.at(rand() % peers.size()).interact(peers.at(rand() % peers.size()), true);
 	}
-}
-
-Peer & Peer::operator=(const Peer & src)
-{
-	if (this != &src)
-	{
-		trust_value = src.trust_value;
-		transactions.empty();
-		src.getTransactions().begin();
-		for (auto i = src.getTransactions().begin(); i != src.getTransactions().end(); i++)
-		{
-			transactions.insert(std::pair<Peer*, int>(i->first, i->second));
-		}
-	}
-	return *this;
 }

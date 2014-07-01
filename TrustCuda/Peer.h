@@ -31,6 +31,5 @@ public:
 	void setTrustValue(const double trust_value) { this->trust_value = trust_value; }
 	double getTrustValue() const { return trust_value; }
 	static void generateInteractions(std::vector<Peer>& peers, const unsigned int num_transactions);
-	Peer & operator=(const Peer &);
 };
 
