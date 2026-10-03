@@ -21,6 +21,6 @@ protected:
 public:
 	SimpleEigentrustGPU(std::vector<Peer>& peers, double error, double damping) : Eigentrust(peers, error, damping){}
 	~SimpleEigentrustGPU(){};
-	void computeEigentrust(double * C, double * e, double * y) override;
+	void computeEigentrust(const TrustMatrix & C) override;
 };
 
