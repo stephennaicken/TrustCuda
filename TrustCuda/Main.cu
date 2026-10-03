@@ -8,9 +8,10 @@ int main(void)
 {
 	const int m = 10000;
 	const double error = 0.0001;
+	const double damping = 0.15;
 	const unsigned int num_transactions = 200000;
 
-	if (m == 0)
+	if (m < 2)
 		std::abort();
 
 	std::vector<Peer> peers;
@@ -19,7 +20,7 @@ int main(void)
 		peers.push_back(Peer());
 	}
 
-	SimpleEigentrustGPU eigentrust(peers, error);
+	SimpleEigentrustGPU eigentrust(peers, error, damping);
 	Peer::generateInteractions(eigentrust.getPeers(), num_transactions);
 
 	thrust::host_vector<double> C(pow(m, 2));
@@ -29,8 +30,6 @@ int main(void)
 	thrust::device_vector<double> d_e(m, 1 / static_cast<double>(m));
 	thrust::device_vector<double> d_y(m);
 	eigentrust.computeEigentrust(thrust::raw_pointer_cast(&d_C[0]), thrust::raw_pointer_cast(&d_e[0]), thrust::raw_pointer_cast(&d_y[0]));
-
-	thrust::host_vector<double> e = d_e;
 
 	std::cout << "Peer ID:\t Trust Value" << std::endl;
 	for (auto i = peers.begin(); i != peers.end(); i++)

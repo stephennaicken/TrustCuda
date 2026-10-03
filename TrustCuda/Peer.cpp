@@ -1,4 +1,5 @@
 #include "Peer.h"
+#include <stdexcept>
 #include <time.h>
 
 const signed int Peer::positive_transaction = 1;
@@ -28,9 +29,16 @@ void Peer::interact(Peer & j, bool init){
 
 void Peer::generateInteractions(std::vector<Peer>& peers, const unsigned int num_transactions)
 {
+	if (peers.size() < 2)
+		return;
 	srand(time(nullptr));
-	for (int i = 0; i < num_transactions; i++)
+	for (unsigned int n = 0; n < num_transactions; n++)
 	{
-		peers.at(rand() % peers.size()).interact(peers.at(rand() % peers.size()), true);
+		size_t i = rand() % peers.size();
+		size_t j;
+		do {
+			j = rand() % peers.size();
+		} while (j == i);
+		peers.at(i).interact(peers.at(j), true);
 	}
 }
