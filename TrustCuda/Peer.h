@@ -2,6 +2,7 @@
 
 #include <random>
 #include <map>
+#include <vector>
 
 class Peer
 {

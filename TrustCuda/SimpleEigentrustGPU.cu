@@ -21,11 +21,15 @@ bool SimpleEigentrustGPU::hasConverged(double * trust_vec_next, double * trust_v
 void SimpleEigentrustGPU::computeEigentrust(double * C, double * e, double * y)
 {
 	std::vector<Peer>::size_type m = getPeers().size();
-	double alpha = 1;
-	double beta = 0;
+	// t(k+1) = (1 - a) * C^T * t(k) + a * p, with p the uniform pre-trust vector
+	thrust::device_vector<double> d_p(m, 1 / static_cast<double>(m));
+	double * p = thrust::raw_pointer_cast(&d_p[0]);
+	double alpha = 1 - getDamping();
+	double beta = getDamping();
 	cublasHandle_t handle;
 	cublasCreate(&handle);
 	do{
+		cublasDcopy(handle, m, p, 1, y, 1);
 		cublasDgemv(handle, CUBLAS_OP_T, m, m, &alpha, C, m, e, 1, &beta, y, 1);
 		double * tmp = e;
 		e = y;

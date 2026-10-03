@@ -19,7 +19,7 @@ private:
 protected:
 	bool hasConverged(double * trust_vec_next,  double * trust_vec_orig) override;
 public:
-	SimpleEigentrustGPU(std::vector<Peer>& peers, double error) : Eigentrust(peers, error){}
+	SimpleEigentrustGPU(std::vector<Peer>& peers, double error, double damping) : Eigentrust(peers, error, damping){}
 	~SimpleEigentrustGPU(){};
 	void computeEigentrust(double * C, double * e, double * y) override;
 };
